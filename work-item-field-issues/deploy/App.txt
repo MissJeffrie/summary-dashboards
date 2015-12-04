@@ -3,11 +3,11 @@
 <head>
     <title>Work Item Field Issues</title>
     <!--  (c) 2015 Rally Software Development Corp.  All Rights Reserved. -->
-    <!--  Build Date: Mon Aug 17 2015 13:42:50 GMT-0700 (PDT) -->
+    <!--  Build Date: Fri Dec 04 2015 13:51:36 GMT-0800 (PST) -->
     
     <script type="text/javascript">
-        var APP_BUILD_DATE = "Mon Aug 17 2015 13:42:50 GMT-0700 (PDT)";
-        var CHECKSUM = 41934295630;
+        var APP_BUILD_DATE = "Fri Dec 04 2015 13:51:36 GMT-0800 (PST)";
+        var CHECKSUM = 41883387870;
     </script>
     
     <script type="text/javascript" src="/apps/2.0rc3/sdk.js"></script>
@@ -817,7 +817,7 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
 
     constructor: function(config){
         Ext.apply(this, config);
-        this.requiredFields = ['Owner','State','c_ValueMetricKPI'];
+        this.requiredFields = ['Owner','State'];
 
     },
     ruleFn_featureRiskDescription: function(r){
