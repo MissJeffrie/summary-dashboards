@@ -3,11 +3,11 @@
 <head>
     <title>Work Item Field Issues</title>
     <!--  (c) 2015 Rally Software Development Corp.  All Rights Reserved. -->
-    <!--  Build Date: Wed Jan 06 2016 09:34:03 GMT-0800 (PST) -->
+    <!--  Build Date: Wed Jan 06 2016 10:10:46 GMT-0800 (PST) -->
     
     <script type="text/javascript">
-        var APP_BUILD_DATE = "Wed Jan 06 2016 09:34:03 GMT-0800 (PST)";
-        var CHECKSUM = 41177647852;
+        var APP_BUILD_DATE = "Wed Jan 06 2016 10:10:46 GMT-0800 (PST)";
+        var CHECKSUM = 41283462377;
     </script>
     
     <script type="text/javascript" src="/apps/2.0rc3/sdk.js"></script>
@@ -208,6 +208,8 @@ Ext.define('Rally.technicalservices.ValidationRules',{
                     return 'Story Release is not Feature Release';
                 case 'ruleFn_storyPlanEstimate':
                     return 'Story has no points';
+                case 'ruleFn_storyKanbanState':
+                    return 'Story has no Kanban State';
                 case 'ruleFn_featureHasNoPoints':
                     return 'Feature has no points';
                 case 'ruleFn_storyRiskDescription':
@@ -289,7 +291,7 @@ Ext.define("work-item-field-issues", {
         allReleasesText: 'All Releases',
         portfolioItemFeature: 'PortfolioItem/Feature',
         featureFetchFields: ['FormattedID','Name','Project','Release','State','AcceptedLeafStoryCount','LeafStoryCount','PlannedStartDate','PlannedEndDate','Owner','ActualStartDate','Parent','ValueScore','LeafStoryPlanEstimateTotal'],
-        storyFetchFields: ['FormattedID','Name','Project','Iteration','Release','ScheduleState','Feature','Owner','PlanEstimate','Blocked','BlockedReason','Blocker'],
+        storyFetchFields: ['FormattedID','Name','Project','Iteration','Release','ScheduleState','Feature','Owner','PlanEstimate','Blocked','BlockedReason','Blocker','c_KanbanState'],
         taskFetchFields: ['FormattedID','Name','Project','Iteration','Release','State','Owner'],
 
 
@@ -826,13 +828,11 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
      **/
     ruleFn_noStoriesForFeature: function(r){
 
-        if (this.ruleFn_isProgramRisk(r) == null) {
-            if (r.get('LeafStoryCount') == 0) {
-                return {
-                    rule: 'ruleFn_noStoriesForFeature',
-                    text: Ext.String.format('<li>Feature has no stories.')
-                };
-            }
+        if (r.get('LeafStoryCount') == 0) {
+            return {
+                rule: 'ruleFn_noStoriesForFeature',
+                text: Ext.String.format('<li>Feature has no stories.')
+            };
         }
         return null;
     },
@@ -847,7 +847,7 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
     },
     ruleFn_FeatureDateIssue: function(r){
 
-        if (this.ruleFn_isProgramRisk(r) == null) {
+        //if (this.ruleFn_isProgramRisk(r) == null) {
             var planned_start = r.get('PlannedStartDate');
 
             if (!r.get('ActualStartDate')){
@@ -883,7 +883,7 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
                     };
                 }
             }
-        }
+        //}
         return null;
     },
     //ruleFn_FeatureHasNotBeenStarted: function(r){
@@ -899,7 +899,7 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
     //    return null;
     //},
     ruleFn_featureMissingFields: function(r) {
-        if (this.ruleFn_isProgramRisk(r) == null) {
+        // if (this.ruleFn_isProgramRisk(r) == null) {
             var missingFields = [];
 
             _.each(this.requiredFields, function (f) {
@@ -915,11 +915,11 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
                 rule: 'ruleFn_featureMissingFields',
                 text: Ext.String.format('<li>Feature fields Missing: {0}', missingFields.join(','))
             };
-        }
+        // }
         return null;
     },
     ruleFn_FeatureHasNoParent: function(r) {
-        if (this.ruleFn_isProgramRisk(r) == null && !r.get('Parent')) {
+        if (!r.get('Parent')) {
             return {
                 rule: 'ruleFn_FeatureHasNoParent',
                 text: Ext.String.format('<li>Feature has no parent.')
@@ -1136,6 +1136,7 @@ Ext.define('Rally.technicalservices.UserStoryValidationRules',{
      ** Below is an example of validation on the custom field c_KanbanState
      **/
     ruleFn_storyKanbanState: function(r){
+        console.log('storyKanbanState',r)
         if (!r.get('c_KanbanState')){
             return {
                 rule: 'ruleFn_storyKanbanState',

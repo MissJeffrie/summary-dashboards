@@ -114,6 +114,7 @@ Ext.define('Rally.technicalservices.UserStoryValidationRules',{
      ** Below is an example of validation on the custom field c_KanbanState
      **/
     ruleFn_storyKanbanState: function(r){
+        console.log('storyKanbanState',r)
         if (!r.get('c_KanbanState')){
             return {
                 rule: 'ruleFn_storyKanbanState',

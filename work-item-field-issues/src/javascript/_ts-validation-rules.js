@@ -66,6 +66,8 @@ Ext.define('Rally.technicalservices.ValidationRules',{
                     return 'Story Release is not Feature Release';
                 case 'ruleFn_storyPlanEstimate':
                     return 'Story has no points';
+                case 'ruleFn_storyKanbanState':
+                    return 'Story has no Kanban State';
                 case 'ruleFn_featureHasNoPoints':
                     return 'Feature has no points';
                 case 'ruleFn_storyRiskDescription':

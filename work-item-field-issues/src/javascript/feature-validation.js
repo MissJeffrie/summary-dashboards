@@ -14,13 +14,11 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
      **/
     ruleFn_noStoriesForFeature: function(r){
 
-        if (this.ruleFn_isProgramRisk(r) == null) {
-            if (r.get('LeafStoryCount') == 0) {
-                return {
-                    rule: 'ruleFn_noStoriesForFeature',
-                    text: Ext.String.format('<li>Feature has no stories.')
-                };
-            }
+        if (r.get('LeafStoryCount') == 0) {
+            return {
+                rule: 'ruleFn_noStoriesForFeature',
+                text: Ext.String.format('<li>Feature has no stories.')
+            };
         }
         return null;
     },
@@ -35,7 +33,7 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
     },
     ruleFn_FeatureDateIssue: function(r){
 
-        if (this.ruleFn_isProgramRisk(r) == null) {
+        //if (this.ruleFn_isProgramRisk(r) == null) {
             var planned_start = r.get('PlannedStartDate');
 
             if (!r.get('ActualStartDate')){
@@ -71,7 +69,7 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
                     };
                 }
             }
-        }
+        //}
         return null;
     },
     //ruleFn_FeatureHasNotBeenStarted: function(r){
@@ -87,7 +85,7 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
     //    return null;
     //},
     ruleFn_featureMissingFields: function(r) {
-        if (this.ruleFn_isProgramRisk(r) == null) {
+        // if (this.ruleFn_isProgramRisk(r) == null) {
             var missingFields = [];
 
             _.each(this.requiredFields, function (f) {
@@ -103,11 +101,11 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
                 rule: 'ruleFn_featureMissingFields',
                 text: Ext.String.format('<li>Feature fields Missing: {0}', missingFields.join(','))
             };
-        }
+        // }
         return null;
     },
     ruleFn_FeatureHasNoParent: function(r) {
-        if (this.ruleFn_isProgramRisk(r) == null && !r.get('Parent')) {
+        if (!r.get('Parent')) {
             return {
                 rule: 'ruleFn_FeatureHasNoParent',
                 text: Ext.String.format('<li>Feature has no parent.')
