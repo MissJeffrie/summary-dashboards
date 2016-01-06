@@ -5,11 +5,12 @@ Ext.define("work-item-field-issues", {
         items: [{xtype: 'container', itemId: 'settings_box'}],
         /**
          * Configurations
+         * To validate custom fields include them in the Fetch statements below using the c_ form of the attribute name such as c_KanbanState
          */
         allReleasesText: 'All Releases',
         portfolioItemFeature: 'PortfolioItem/Feature',
-        featureFetchFields: ['FormattedID','Name','Project','Release','State','AcceptedLeafStoryCount','LeafStoryCount','PlannedStartDate','PlannedEndDate','Owner','ActualStartDate','Parent','ValueScore','c_ValueMetricKPI','c_Risk','c_RiskDescription','LeafStoryPlanEstimateTotal'],
-        storyFetchFields: ['FormattedID','Name','Project','Iteration','Release','ScheduleState','Feature','Owner','PlanEstimate','Blocked','BlockedReason','Blocker','c_Risk','c_RiskStatement'],
+        featureFetchFields: ['FormattedID','Name','Project','Release','State','AcceptedLeafStoryCount','LeafStoryCount','PlannedStartDate','PlannedEndDate','Owner','ActualStartDate','Parent','ValueScore','LeafStoryPlanEstimateTotal'],
+        storyFetchFields: ['FormattedID','Name','Project','Iteration','Release','ScheduleState','Feature','Owner','PlanEstimate','Blocked','BlockedReason','Blocker'],
         taskFetchFields: ['FormattedID','Name','Project','Iteration','Release','State','Owner'],
 
 

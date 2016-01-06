@@ -9,25 +9,9 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
         this.requiredFields = ['Owner','State'];
 
     },
-    ruleFn_featureRiskDescription: function(r){
-        if (r.get('c_Risk') && !r.get('c_RiskDescription')){
-            return {
-                rule: 'ruleFn_featureRiskDescription',
-                text: '<li>Feature Risk has no Description.'
-            };
-        }
-        return null;
-    },
-    ruleFn_isProgramRisk: function(r){
-        if (r.get('c_Risk') && !r.get('Parent') && r.get('LeafStoryCount') == 0){
-            return {
-                rule: 'ruleFn_isProgramRisk',
-                text: '<li>Feature is program level risk',
-                stopProcessing: true
-            };
-        }
-        return null;
-    },
+    /**
+     **  For an example of custom field validation see story-validation.js
+     **/
     ruleFn_noStoriesForFeature: function(r){
 
         if (this.ruleFn_isProgramRisk(r) == null) {

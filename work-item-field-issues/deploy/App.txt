@@ -3,11 +3,11 @@
 <head>
     <title>Work Item Field Issues</title>
     <!--  (c) 2015 Rally Software Development Corp.  All Rights Reserved. -->
-    <!--  Build Date: Fri Dec 04 2015 13:51:36 GMT-0800 (PST) -->
+    <!--  Build Date: Wed Jan 06 2016 09:34:03 GMT-0800 (PST) -->
     
     <script type="text/javascript">
-        var APP_BUILD_DATE = "Fri Dec 04 2015 13:51:36 GMT-0800 (PST)";
-        var CHECKSUM = 41883387870;
+        var APP_BUILD_DATE = "Wed Jan 06 2016 09:34:03 GMT-0800 (PST)";
+        var CHECKSUM = 41177647852;
     </script>
     
     <script type="text/javascript" src="/apps/2.0rc3/sdk.js"></script>
@@ -284,11 +284,12 @@ Ext.define("work-item-field-issues", {
         items: [{xtype: 'container', itemId: 'settings_box'}],
         /**
          * Configurations
+         * To validate custom fields include them in the Fetch statements below using the c_ form of the attribute name such as c_KanbanState
          */
         allReleasesText: 'All Releases',
         portfolioItemFeature: 'PortfolioItem/Feature',
-        featureFetchFields: ['FormattedID','Name','Project','Release','State','AcceptedLeafStoryCount','LeafStoryCount','PlannedStartDate','PlannedEndDate','Owner','ActualStartDate','Parent','ValueScore','c_ValueMetricKPI','c_Risk','c_RiskDescription','LeafStoryPlanEstimateTotal'],
-        storyFetchFields: ['FormattedID','Name','Project','Iteration','Release','ScheduleState','Feature','Owner','PlanEstimate','Blocked','BlockedReason','Blocker','c_Risk','c_RiskStatement'],
+        featureFetchFields: ['FormattedID','Name','Project','Release','State','AcceptedLeafStoryCount','LeafStoryCount','PlannedStartDate','PlannedEndDate','Owner','ActualStartDate','Parent','ValueScore','LeafStoryPlanEstimateTotal'],
+        storyFetchFields: ['FormattedID','Name','Project','Iteration','Release','ScheduleState','Feature','Owner','PlanEstimate','Blocked','BlockedReason','Blocker'],
         taskFetchFields: ['FormattedID','Name','Project','Iteration','Release','State','Owner'],
 
 
@@ -820,25 +821,9 @@ Ext.define('Rally.technicalservices.FeatureValidationRules',{
         this.requiredFields = ['Owner','State'];
 
     },
-    ruleFn_featureRiskDescription: function(r){
-        if (r.get('c_Risk') && !r.get('c_RiskDescription')){
-            return {
-                rule: 'ruleFn_featureRiskDescription',
-                text: '<li>Feature Risk has no Description.'
-            };
-        }
-        return null;
-    },
-    ruleFn_isProgramRisk: function(r){
-        if (r.get('c_Risk') && !r.get('Parent') && r.get('LeafStoryCount') == 0){
-            return {
-                rule: 'ruleFn_isProgramRisk',
-                text: '<li>Feature is program level risk',
-                stopProcessing: true
-            };
-        }
-        return null;
-    },
+    /**
+     **  For an example of custom field validation see story-validation.js
+     **/
     ruleFn_noStoriesForFeature: function(r){
 
         if (this.ruleFn_isProgramRisk(r) == null) {
@@ -1147,11 +1132,14 @@ Ext.define('Rally.technicalservices.UserStoryValidationRules',{
         }
         return msg;
     },
-    ruleFn_storyRiskDescription: function(r){
-        if (r.get('c_Risk') && !r.get('c_RiskStatement')){
+    /**
+     ** Below is an example of validation on the custom field c_KanbanState
+     **/
+    ruleFn_storyKanbanState: function(r){
+        if (!r.get('c_KanbanState')){
             return {
-                rule: 'ruleFn_storyRiskDescription',
-                text: '<li>Story Risk has no Description'
+                rule: 'ruleFn_storyKanbanState',
+                text: '<li>Story Kanban State has no value'
             };
         }
         return null;

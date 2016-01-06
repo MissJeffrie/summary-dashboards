@@ -110,11 +110,14 @@ Ext.define('Rally.technicalservices.UserStoryValidationRules',{
         }
         return msg;
     },
-    ruleFn_storyRiskDescription: function(r){
-        if (r.get('c_Risk') && !r.get('c_RiskStatement')){
+    /**
+     ** Below is an example of validation on the custom field c_KanbanState
+     **/
+    ruleFn_storyKanbanState: function(r){
+        if (!r.get('c_KanbanState')){
             return {
-                rule: 'ruleFn_storyRiskDescription',
-                text: '<li>Story Risk has no Description'
+                rule: 'ruleFn_storyKanbanState',
+                text: '<li>Story Kanban State has no value'
             };
         }
         return null;
